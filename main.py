@@ -2,10 +2,12 @@ import random
 from dataclasses import dataclass
 from enum import Enum
 
+
 def quantite_stats():
     nums = [random.randint(1, 6), random.randint(1, 6), random.randint(1, 6), random.randint(1, 6)]
     nums.sort()
     return nums[1] + nums[2] + nums[3]
+
 
 class NPC:
     def __init__(self):
@@ -37,7 +39,6 @@ class NPC:
         else:
             return True
 
-
     def afficher_caracteristiques(self):
         print(f"Force: {self.Force}\n"
               f"Agilité: {self.Agilité}\n"
@@ -62,56 +63,22 @@ class Kobold(NPC):
     def subir_dommage(self, dommage):
         self.pv -= dommage
 
+
 class Hero(NPC):
     def __init__(self):
         super().__init__()
         self.race = "Héros"
         self.espece = "humanoïde"
+        self.bp = Backpack()
 
     def subir_dommage(self, dommage):
         self.pv -= dommage
+
 
 @dataclass
 class Item:
     quantite: int
     nom: str
-
-
-class Backpack:
-    def __init__(self):
-        self.items = []
-
-    def ajouter_item(self, nom, qte):
-        for item in self.items:
-            if nom == item.nom:
-                self.item.quantite += qte
-            else:
-                self.items.append(Item(qte, nom))
-
-
-    def show_content(self):
-        for item in self.items:
-            print(item.nom)
-
-
-
-    def retirer_item(self, nom, qte):
-        for item in self.items:
-            if nom == item.nom:
-                if self.item.quantite < qte:
-                    print("Erreur")
-                else:
-                    self.item.quantite -= qte
-            else:
-                print("Erreur")
-            if item.quantite == 0:
-                self.items.remove(Item(qte, nom))
-
-
-bp = Backpack()
-bp.ajouter_item("or", 10)
-bp.ajouter_item("or", 10)
-bp.show_content()
 
 
 class alignement(Enum):
@@ -125,3 +92,31 @@ class alignement(Enum):
     Chaotic_good = 7
     Chaotic_neutral = 8
     Chaotic_evil = 9
+
+
+class Backpack:
+    def __init__(self):
+        self.items = []
+
+    def ajouter_item(self, nom, qte):
+        for item in self.items:
+            if nom == item.nom:
+                self.item.quantite += qte
+            else:
+                self.items.append(Item(qte, nom))
+
+    def show_content(self):
+        for item in self.items:
+            print(item.nom)
+
+    def retirer_item(self, nom, qte):
+        for item in self.items:
+            if nom == item.nom:
+                if self.item.quantite < qte:
+                    print("Erreur")
+                else:
+                    self.item.quantite -= qte
+            else:
+                print("Erreur")
+            if item.quantite == 0:
+                self.items.remove(Item(qte, nom))
