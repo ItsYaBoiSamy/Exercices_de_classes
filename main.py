@@ -1,122 +1,42 @@
+import arcade
 import random
-from dataclasses import dataclass
-from enum import Enum
 
+ScreenWidth = 500
+ScreenHeight = 500
 
-def quantite_stats():
-    nums = [random.randint(1, 6), random.randint(1, 6), random.randint(1, 6), random.randint(1, 6)]
-    nums.sort()
-    return nums[1] + nums[2] + nums[3]
+#color 0: green
+#color 1: blue
+#color 2: cyan
+#color 3: yellow
+#color 4: red
+#color 5: purple
+#color 6: white
+#color 7: gray
+#color 8: pink
+#color 9: brown
+#color 10: orange
+#color 11:
+#color 12:
+#color 13:
+#color 14:
+#color 15:
+#color 16:
+#color 17:
+#color 18:
+#color 19:
 
+colors = [arcade.color. ]
 
-class NPC:
-    def __init__(self):
-        self.Force = quantite_stats()
-        self.Agilité = quantite_stats()
-        self.Constitution = quantite_stats()
-        self.Intelligence = quantite_stats()
-        self.Sagesse = quantite_stats()
-        self.Charisme = quantite_stats()
-        self.Classe_armure = random.randint(1, 12)
-        self.nom = ""
-        self.race = ""
-        self.espece = ""
-        self.pv = random.randint(1, 20)
-        self.profession = ""
-        self.alignement = 0
+class MakeGame(arcade.Window):
+    def __init__(self, width, height, title):
+        super().__init__(width, height, title)
 
-    @staticmethod
-    def attaquer(cible):
-        attack_num = random.randint(1, 20)
-        if attack_num > cible.Classe_armure:
-            if attack_num == 20:
-                cible.subir_dommage(random.randint(1, 8))
-            cible.subir_dommage(1)
+    def on_draw(self):
+        arcade.start_render()
+        arcade.draw_circle_filled(10, 10, 10, (0, 235, 247))
 
-    def verify_alive(self):
-        if self.pv <= 0:
-            return False
-        else:
-            return True
+def main():
+    Test_game = MakeGame(ScreenWidth, ScreenHeight, "Test game")
+    arcade.run()
 
-    def afficher_caracteristiques(self):
-        print(f"Force: {self.Force}\n"
-              f"Agilité: {self.Agilité}\n"
-              f"Constitution: {self.Constitution}\n"
-              f"Intelligence: {self.Intelligence}\n"
-              f"Sagesse: {self.Sagesse}\n"
-              f"Charisme: {self.Charisme}\n"
-              f"Classe_armure: {self.Classe_armure}\n"
-              f"nom: {self.nom}\n"
-              f"race: {self.race}\n"
-              f"espece: {self.espece}\n"
-              f"pv: {self.pv}\n"
-              f"profession: {self.profession}\n")
-
-
-class Kobold(NPC):
-    def __init__(self):
-        super().__init__()
-        self.race = "kobold"
-        self.espece = "humanoïde"
-
-    def subir_dommage(self, dommage):
-        self.pv -= dommage
-
-
-class Hero(NPC):
-    def __init__(self):
-        super().__init__()
-        self.race = "Héros"
-        self.espece = "humanoïde"
-        self.bp = Backpack()
-
-    def subir_dommage(self, dommage):
-        self.pv -= dommage
-
-
-@dataclass
-class Item:
-    quantite: int
-    nom: str
-
-
-class alignement(Enum):
-    undefined = 0
-    Lawful_good = 1
-    Lawful_neutral = 2
-    Lawful_evil = 3
-    Neutral_good = 4
-    True_neutral = 5
-    Neutral_evil = 6
-    Chaotic_good = 7
-    Chaotic_neutral = 8
-    Chaotic_evil = 9
-
-
-class Backpack:
-    def __init__(self):
-        self.items = []
-
-    def ajouter_item(self, nom, qte):
-        for item in self.items:
-            if nom == item.nom:
-                self.item.quantite += qte
-            else:
-                self.items.append(Item(qte, nom))
-
-    def show_content(self):
-        for item in self.items:
-            print(item.nom)
-
-    def retirer_item(self, nom, qte):
-        for item in self.items:
-            if nom == item.nom:
-                if self.item.quantite < qte:
-                    print("Erreur")
-                else:
-                    self.item.quantite -= qte
-            else:
-                print("Erreur")
-            if item.quantite == 0:
-                self.items.remove(Item(qte, nom))
+main()
