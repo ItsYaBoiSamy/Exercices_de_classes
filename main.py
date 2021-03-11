@@ -1,31 +1,8 @@
 import arcade
 import random
 
-ScreenWidth = 500
-ScreenHeight = 500
-
-#color 0: green
-#color 1: blue
-#color 2: cyan
-#color 3: yellow
-#color 4: red
-#color 5: purple
-#color 6: white
-#color 7: gray
-#color 8: pink
-#color 9: brown
-#color 10: orange
-#color 11:
-#color 12:
-#color 13:
-#color 14:
-#color 15:
-#color 16:
-#color 17:
-#color 18:
-#color 19:
-
-colors = [arcade.color. ]
+ScreenWidth = 1920
+ScreenHeight = 1080
 
 class MakeGame(arcade.Window):
     def __init__(self, width, height, title):
@@ -33,10 +10,15 @@ class MakeGame(arcade.Window):
 
     def on_draw(self):
         arcade.start_render()
-        arcade.draw_circle_filled(10, 10, 10, (0, 235, 247))
+        arcade.set_background_color(arcade.color.WHITE)
+        arcade.draw_rectangle_filled(ScreenWidth/3 - 25, ScreenHeight/2 + 50, 100, 100, (arcade.color.DIM_GRAY))
+        arcade.finish_render()
+
+    def build_TicTacToe_grid(self, grid_pos_x, grid_pos_y, square_size, bar_width, grid_color):
+        
 
 def main():
-    Test_game = MakeGame(ScreenWidth, ScreenHeight, "Test game")
+    TicTacToe = MakeGame(ScreenWidth, ScreenHeight, "Test game")
     arcade.run()
 
 main()
