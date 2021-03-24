@@ -12,13 +12,13 @@ COLORS = [arcade.color.BABY_PINK, arcade.color.FRENCH_MAUVE,
 
 @dataclass
 class Cercle:
-    rayon: int
     centre_x: int
     centre_y: int
+    rayon: int
     color: (int,  int,  int)
 
     def draw(self):
-        pass
+        arcade.draw_circle_filled(self.centre_x, self.centre_y, self.rayon, self.color)
 
 
 class MyGame(arcade.Window):
@@ -28,24 +28,18 @@ class MyGame(arcade.Window):
 
     def setup(self):
         for i in range(20):
-            rayon = random.randint(10, 20)
-            centre_x = random.randint(0 + 20, SCREEN_WIDTH - 20)
-            centre_y = random.randint(0 + 20, SCREEN_HEIGHT - 20)
-            color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
-            self.liste_cercles.append(Cercle(rayon, centre_x, centre_y, color))
+            self.liste_cercles.append(Cercle(random.randint(0 + 50, SCREEN_WIDTH - 50), random.randint(0 + 50, SCREEN_HEIGHT - 50), random.randint(20, 50), random.choice(COLORS)))
 
     def on_draw(self):
         arcade.start_render()
-        for i in self.liste_cercles:
-            arcade.draw_circle_filled(self.liste_cercles[i].centre_x,
-            self.liste_cercles[i].centre_y, self.liste_cercles[i].rayon,
-            self.liste_cercles[i].color)
+        for cercle in self.liste_cercles:
+            cercle.draw()
+        arcade.finish_render()
 
 
 def main():
-    my_game = MyGame()
-    my_game.setup()
-
+    epileptic_circles = MyGame()
+    epileptic_circles.setup()
     arcade.run()
 
 
