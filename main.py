@@ -36,6 +36,20 @@ class MyGame(arcade.Window):
             cercle.draw()
         arcade.finish_render()
 
+    def on_mouse_press(self, x: float, y: float, button: int, modifiers: int):
+        for cercle in self.liste_cercles:
+            if analyseCollision(x, y, cercle.centre_x, cercle.centre_y, cercle.rayon):
+                if button == arcade.MOUSE_BUTTON_LEFT:
+                    self.liste_cercles.remove(cercle)
+                if button == arcade.MOUSE_BUTTON_RIGHT:
+                    cercle.color = random.choice(COLORS)
+
+
+def analyseCollision(mouseX, mouseY, circleX, circleY, circleRadius):
+    if (mouseX - circleX) ** 2 + (mouseY - circleY) ** 2 > circleRadius ** 2:
+        return False
+    else:
+        return True
 
 def main():
     epileptic_circles = MyGame()
