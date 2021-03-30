@@ -2,12 +2,15 @@ import arcade
 import random
 from dataclasses import dataclass
 
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
+SCREEN_WIDTH = 1920
+SCREEN_HEIGHT = 1080
 
-COLORS = [arcade.color.BABY_PINK, arcade.color.FRENCH_MAUVE,
-          arcade.color.JELLY_BEAN, arcade.color.PURPLE_MOUNTAIN_MAJESTY,
-          arcade.color.ANTI_FLASH_WHITE]
+COLORS = [arcade.color.BLUE, arcade.color.PURPLE,
+          arcade.color.GREEN, arcade.color.RED,
+          arcade.color.YELLOW, arcade.color.ORANGE,
+          arcade.color.WHITE, arcade.color.BLACK,
+          arcade.color.DIM_GRAY, arcade.color.PALE_BLUE,
+          arcade.color.PINK, arcade.color.BROWN]
 
 
 @dataclass
@@ -16,9 +19,19 @@ class Cercle:
     centre_y: int
     rayon: int
     color: (int,  int,  int)
+    speed_x: float
+    speed_y: float
 
     def draw(self):
         arcade.draw_circle_filled(self.centre_x, self.centre_y, self.rayon, self.color)
+
+    def update(self):
+        if self.centre_x <= 0 + self.rayon or self.centre_x >= SCREEN_WIDTH - self.rayon:
+            self.speed_x *= -1
+        if self.centre_y <= 0 + self.rayon or self.centre_y >= SCREEN_HEIGHT - self.rayon:
+            self.speed_y *= -1
+        self.centre_x += self.speed_x
+        self.centre_y += self.speed_y
 
 
 class MyGame(arcade.Window):
@@ -27,41 +40,18 @@ class MyGame(arcade.Window):
         self.liste_cercles = []
 
     def setup(self):
-        for i in range(20):
-            self.liste_cercles.append(Cercle(random.randint(0 + 50, SCREEN_WIDTH - 50), random.randint(0 + 50, SCREEN_HEIGHT - 50), random.randint(20, 50), random.choice(COLORS)))
-
-        for cercle in self.liste_cercles:
-            for cercleCompare in self.liste_cercles:
-                if cercle == cercleCompare:
-                    pass
-
-                elif analyseCollision(cercle.centre_x, cercle.centre_y, cercleCompare.centre_x, cercleCompare.centre_y, cercle.rayon + cercleCompare.rayon):
-                    self.liste_cercles.remove(cercleCompare)
-                    self.liste_cercles.append(Cercle(random.randint(0 + 50, SCREEN_WIDTH - 50), random.randint(0 + 50, SCREEN_HEIGHT - 50), random.randint(20, 50), random.choice(COLORS)))
+        for i in range(2000):
+            self.liste_cercles.append(Cercle(random.randint(0 + 50, SCREEN_WIDTH - 50), random.randint(0 + 50, SCREEN_HEIGHT - 50), random.randint(20, 50), random.choice(COLORS), random.randint(-5, 5), random.randint(-5, 5)))
 
     def on_draw(self):
         arcade.start_render()
-
         for cercle in self.liste_cercles:
             cercle.draw()
         arcade.finish_render()
 
-    def on_mouse_press(self, x: float, y: float, button: int, modifiers: int):
+    def on_update(self, delta_time: float):
         for cercle in self.liste_cercles:
-            if analyseCollision(x, y, cercle.centre_x, cercle.centre_y, cercle.rayon):
-                if button == arcade.MOUSE_BUTTON_LEFT:
-                    self.liste_cercles.remove(cercle)
-
-                if button == arcade.MOUSE_BUTTON_RIGHT:
-                    cercle.color = random.choice(COLORS)
-
-
-def analyseCollision(posX1, posY1, posX2, posY2, circleRadius):
-    if (posX1 - posX2) ** 2 + (posY1 - posY2) ** 2 > circleRadius ** 2:
-        return False
-
-    else:
-        return True
+            cercle.update()
 
 def main():
     epileptic_circles = MyGame()
